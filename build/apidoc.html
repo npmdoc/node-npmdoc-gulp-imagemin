@@ -46,65 +46,65 @@
     font-weight: bold;
 }
 </style>
-<h1>api-documentation for
+<h1>api documentation for
     <a
-        
+
         href="https://github.com/sindresorhus/gulp-imagemin#readme"
-        
-    >gulp-imagemin (v3.1.1)</a>
+
+    >gulp-imagemin (v3.2.0)</a>
 </h1>
 <h4>Minify PNG, JPEG, GIF and SVG images</h4>
 <div class="apidocSectionDiv"><a
     href="#apidoc.tableOfContents"
     id="apidoc.tableOfContents"
 ><h1>table of contents</h1></a><ol>
-    
+
     <li class="apidocModuleLi"><a href="#apidoc.module.gulp-imagemin">module gulp-imagemin</a><ol>
-        
+
         <li>
-            
+
             <a class="apidocElementLiA" href="#apidoc.element.gulp-imagemin.gifsicle">
             function <span class="apidocSignatureSpan">gulp-imagemin.</span>gifsicle
             <span class="apidocSignatureSpan">()</span>
             </a>
-            
+
         </li>
-        
+
         <li>
-            
+
             <a class="apidocElementLiA" href="#apidoc.element.gulp-imagemin.jpegtran">
             function <span class="apidocSignatureSpan">gulp-imagemin.</span>jpegtran
             <span class="apidocSignatureSpan">()</span>
             </a>
-            
+
         </li>
-        
+
         <li>
-            
+
             <a class="apidocElementLiA" href="#apidoc.element.gulp-imagemin.optipng">
             function <span class="apidocSignatureSpan">gulp-imagemin.</span>optipng
             <span class="apidocSignatureSpan">()</span>
             </a>
-            
+
         </li>
-        
+
         <li>
-            
+
             <a class="apidocElementLiA" href="#apidoc.element.gulp-imagemin.svgo">
             function <span class="apidocSignatureSpan">gulp-imagemin.</span>svgo
             <span class="apidocSignatureSpan">()</span>
             </a>
-            
+
         </li>
-        
+
     </ol></li>
-    
+
 </ol></div>
 
 <div class="apidocSectionDiv">
 <h1><a href="#apidoc.module.gulp-imagemin" id="apidoc.module.gulp-imagemin">module gulp-imagemin</a></h1>
-    
-    
+
+
     <h2>
         <a href="#apidoc.element.gulp-imagemin.gifsicle" id="apidoc.element.gulp-imagemin.gifsicle">
         function <span class="apidocSignatureSpan">gulp-imagemin.</span>gifsicle
@@ -117,27 +117,25 @@
 		return loadPlugin(plugin, args);
 	}</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-### imagemin([plugins], [options])
+```
 
-Unsupported files are ignored.
+### Custom plugin options
 
-#### plugins
-
-Type: `Array`&#x3c;br&#x3e;
-Default: `[imagemin.<span class="apidocCodeKeywordSpan">gifsicle</span>(), imagemin.jpegtran(), imagemin.optipng(), imagemin.svg\
-o()]`
-
-[Plugins](https://www.npmjs.com/browse/keyword/imageminplugin) to use. This will overwrite the default plugins. Note that the de\
-fault plugins comes with good defaults and should be sufficient in most cases. See the individual plugins for supported options.
-
-#### options
-
-Type: `Object`
+```js
+…
+.pipe(imagemin([
+	imagemin.<span class="apidocCodeKeywordSpan">gifsicle</span>({interlaced: true}),
+	imagemin.jpegtran({progressive: true}),
+	imagemin.optipng({optimizationLevel: 5}),
+	imagemin.svgo({plugins: [{removeViewBox: true}]})
+]))
+…
+```
 ...</pre></li>
     </ul>
-    
-    
-    
+
+
+
     <h2>
         <a href="#apidoc.element.gulp-imagemin.jpegtran" id="apidoc.element.gulp-imagemin.jpegtran">
         function <span class="apidocSignatureSpan">gulp-imagemin.</span>jpegtran
@@ -150,27 +148,26 @@ Type: `Object`
 		return loadPlugin(plugin, args);
 	}</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-### imagemin([plugins], [options])
 
-Unsupported files are ignored.
+### Custom plugin options
 
-#### plugins
+```js
+…
+.pipe(imagemin([
+	imagemin.gifsicle({interlaced: true}),
+	imagemin.<span class="apidocCodeKeywordSpan">jpegtran</span>({progressive: true}),
+	imagemin.optipng({optimizationLevel: 5}),
+	imagemin.svgo({plugins: [{removeViewBox: true}]})
+]))
+…
+```
 
-Type: `Array`&#x3c;br&#x3e;
-Default: `[imagemin.gifsicle(), imagemin.<span class="apidocCodeKeywordSpan">jpegtran</span>(), imagemin.optipng(), imagemin.svg\
-o()]`
-
-[Plugins](https://www.npmjs.com/browse/keyword/imageminplugin) to use. This will overwrite the default plugins. Note that the de\
-fault plugins comes with good defaults and should be sufficient in most cases. See the individual plugins for supported options.
-
-#### options
-
-Type: `Object`
+Note that you may come across an older, implicit syntax. In versions &#x3c; 3, the same was written like this:
 ...</pre></li>
     </ul>
-    
-    
-    
+
+
+
     <h2>
         <a href="#apidoc.element.gulp-imagemin.optipng" id="apidoc.element.gulp-imagemin.optipng">
         function <span class="apidocSignatureSpan">gulp-imagemin.</span>optipng
@@ -183,27 +180,25 @@ Type: `Object`
 		return loadPlugin(plugin, args);
 	}</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-### imagemin([plugins], [options])
+### Custom plugin options
 
-Unsupported files are ignored.
+```js
+…
+.pipe(imagemin([
+	imagemin.gifsicle({interlaced: true}),
+	imagemin.jpegtran({progressive: true}),
+	imagemin.<span class="apidocCodeKeywordSpan">optipng</span>({optimizationLevel: 5}),
+	imagemin.svgo({plugins: [{removeViewBox: true}]})
+]))
+…
+```
 
-#### plugins
-
-Type: `Array`&#x3c;br&#x3e;
-Default: `[imagemin.gifsicle(), imagemin.jpegtran(), imagemin.<span class="apidocCodeKeywordSpan">optipng</span>(), imagemin.svg\
-o()]`
-
-[Plugins](https://www.npmjs.com/browse/keyword/imageminplugin) to use. This will overwrite the default plugins. Note that the de\
-fault plugins comes with good defaults and should be sufficient in most cases. See the individual plugins for supported options.
-
-#### options
-
-Type: `Object`
+Note that you may come across an older, implicit syntax. In versions &#x3c; 3, the same was written like this:
 ...</pre></li>
     </ul>
-    
-    
-    
+
+
+
     <h2>
         <a href="#apidoc.element.gulp-imagemin.svgo" id="apidoc.element.gulp-imagemin.svgo">
         function <span class="apidocSignatureSpan">gulp-imagemin.</span>svgo
@@ -216,26 +211,25 @@ Type: `Object`
 		return loadPlugin(plugin, args);
 	}</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-### imagemin([plugins], [options])
 
-Unsupported files are ignored.
+```js
+…
+.pipe(imagemin([
+	imagemin.gifsicle({interlaced: true}),
+	imagemin.jpegtran({progressive: true}),
+	imagemin.optipng({optimizationLevel: 5}),
+	imagemin.<span class="apidocCodeKeywordSpan">svgo</span>({plugins: [{removeViewBox: true}]})
+]))
+…
+```
 
-#### plugins
+Note that you may come across an older, implicit syntax. In versions &#x3c; 3, the same was written like this:
 
-Type: `Array`&#x3c;br&#x3e;
-Default: `[imagemin.gifsicle(), imagemin.jpegtran(), imagemin.optipng(), imagemin.<span class="apidocCodeKeywordSpan">svgo</span\
->()]`
-
-[Plugins](https://www.npmjs.com/browse/keyword/imageminplugin) to use. This will overwrite the default plugins. Note that the de\
-fault plugins comes with good defaults and should be sufficient in most cases. See the individual plugins for supported options.
-
-#### options
-
-Type: `Object`
+```js
 ...</pre></li>
     </ul>
-    
-    
+
+
 </div>
 
 <div class="apidocFooterDiv">
