@@ -159,7 +159,7 @@
 <tspan x="10" y="2506">  │ │ │ │ │ ├── is-zip@1.0.0 </tspan>
 <tspan x="10" y="2522">  │ │ │ │ │ ├── stat-mode@0.2.2 </tspan>
 <tspan x="10" y="2538">  │ │ │ │ │ ├── vinyl@1.2.0 </tspan>
-<tspan x="10" y="2554">  │ │ │ │ │ └─┬ yauzl@2.7.0 </tspan>
+<tspan x="10" y="2554">  │ │ │ │ │ └─┬ yauzl@2.8.0 </tspan>
 <tspan x="10" y="2570">  │ │ │ │ │   ├── buffer-crc32@0.2.13 </tspan>
 <tspan x="10" y="2586">  │ │ │ │ │   └─┬ fd-slicer@1.0.1 </tspan>
 <tspan x="10" y="2602">  │ │ │ │ │     └── pend@1.2.0 </tspan>
@@ -209,7 +209,7 @@
 <tspan x="10" y="3306">  │ │ │ │   │ │ ├── filename-regex@2.0.0 </tspan>
 <tspan x="10" y="3322">  │ │ │ │   │ │ ├── is-extglob@1.0.0 </tspan>
 <tspan x="10" y="3338">  │ │ │ │   │ │ ├── is-glob@2.0.1 </tspan>
-<tspan x="10" y="3354">  │ │ │ │   │ │ ├─┬ kind-of@3.1.0 </tspan>
+<tspan x="10" y="3354">  │ │ │ │   │ │ ├─┬ kind-of@3.2.0 </tspan>
 <tspan x="10" y="3370">  │ │ │ │   │ │ │ └── is-buffer@1.1.5 </tspan>
 <tspan x="10" y="3386">  │ │ │ │   │ │ ├─┬ normalize-path@2.1.1 </tspan>
 <tspan x="10" y="3402">  │ │ │ │   │ │ │ └── remove-trailing-separator@1.0.1 </tspan>
@@ -330,7 +330,7 @@
 <tspan x="10" y="5242">  │ │ │ │     │ └─┬ currently-unhandled@0.4.1 </tspan>
 <tspan x="10" y="5258">  │ │ │ │     │   └── array-find-index@1.0.2 </tspan>
 <tspan x="10" y="5274">  │ │ │ │     ├── map-obj@1.0.1 </tspan>
-<tspan x="10" y="5290">  │ │ │ │     ├─┬ normalize-package-data@2.3.6 </tspan>
+<tspan x="10" y="5290">  │ │ │ │     ├─┬ normalize-package-data@2.3.8 </tspan>
 <tspan x="10" y="5306">  │ │ │ │     │ ├── hosted-git-info@2.4.2 </tspan>
 <tspan x="10" y="5322">  │ │ │ │     │ ├─┬ is-builtin-module@1.0.0 </tspan>
 <tspan x="10" y="5338">  │ │ │ │     │ │ └── builtin-modules@1.1.1 </tspan>
