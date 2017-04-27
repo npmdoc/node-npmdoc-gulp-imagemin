@@ -1,6 +1,6 @@
 # npmdoc-gulp-imagemin
 
-#### api documentation for  [gulp-imagemin (v3.2.0)](https://github.com/sindresorhus/gulp-imagemin#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-imagemin.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-imagemin) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-imagemin.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-imagemin)
+#### basic api documentation for  [gulp-imagemin (v3.2.0)](https://github.com/sindresorhus/gulp-imagemin#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-imagemin.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-imagemin) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-imagemin.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-imagemin)
 
 #### Minify PNG, JPEG, GIF and SVG images
 
@@ -103,7 +103,8 @@
     "version": "3.2.0",
     "xo": {
         "esnext": true
-    }
+    },
+    "bin": {}
 }
 ```
 
