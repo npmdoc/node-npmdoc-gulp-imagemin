@@ -81,6 +81,15 @@
 
         <li>
 
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-imagemin.index">
+            function <span class="apidocSignatureSpan">gulp-imagemin.</span>index
+            <span class="apidocSignatureSpan">(plugins, opts)</span>
+            </a>
+
+        </li>
+
+        <li>
+
             <a class="apidocElementLiA" href="#apidoc.element.gulp-imagemin.jpegtran">
             function <span class="apidocSignatureSpan">gulp-imagemin.</span>jpegtran
             <span class="apidocSignatureSpan">()</span>
@@ -101,6 +110,55 @@
 
             <a class="apidocElementLiA" href="#apidoc.element.gulp-imagemin.svgo">
             function <span class="apidocSignatureSpan">gulp-imagemin.</span>svgo
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.gulp-imagemin.index">module gulp-imagemin.index</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-imagemin.index.index">
+            function <span class="apidocSignatureSpan">gulp-imagemin.</span>index
+            <span class="apidocSignatureSpan">(plugins, opts)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-imagemin.index.gifsicle">
+            function <span class="apidocSignatureSpan">gulp-imagemin.index.</span>gifsicle
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-imagemin.index.jpegtran">
+            function <span class="apidocSignatureSpan">gulp-imagemin.index.</span>jpegtran
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-imagemin.index.optipng">
+            function <span class="apidocSignatureSpan">gulp-imagemin.index.</span>optipng
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-imagemin.index.svgo">
+            function <span class="apidocSignatureSpan">gulp-imagemin.index.</span>svgo
             <span class="apidocSignatureSpan">()</span>
             </a>
 
@@ -235,6 +293,95 @@
 
 
     <h2>
+        <a href="#apidoc.element.gulp-imagemin.index" id="apidoc.element.gulp-imagemin.index">
+        function <span class="apidocSignatureSpan">gulp-imagemin.</span>index
+        <span class="apidocSignatureSpan">(plugins, opts)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">(plugins, opts) =&#x3e; {
+	if (typeof plugins === &#x27;object&#x27; &#x26;&#x26; !Array.isArray(plugins)) {
+		opts = plugins;
+		plugins = null;
+	}
+
+	opts = Object.assign({
+		// TODO: remove this when gulp get&#x27;s a real logger with levels
+		verbose: process.argv.indexOf(&#x27;--verbose&#x27;) !== -1
+	}, opts);
+
+	const validExts = [&#x27;.jpg&#x27;, &#x27;.jpeg&#x27;, &#x27;.png&#x27;, &#x27;.gif&#x27;, &#x27;.svg&#x27;];
+
+	let totalBytes = 0;
+	let totalSavedBytes = 0;
+	let totalFiles = 0;
+
+	return through.obj({
+		maxConcurrency: 8
+	}, (file, enc, cb) =&#x3e; {
+		if (file.isNull()) {
+			cb(null, file);
+			return;
+		}
+
+		if (file.isStream()) {
+			cb(new gutil.PluginError(&#x27;gulp-imagemin&#x27;, &#x27;Streaming not supported&#x27;));
+			return;
+		}
+
+		if (validExts.indexOf(path.extname(file.path).toLowerCase()) === -1) {
+			if (opts.verbose) {
+				gutil.log(`gulp-imagemin: Skipping unsupported image ${chalk.blue(file.relative)}`);
+			}
+
+			cb(null, file);
+			return;
+		}
+
+		const use = plugins || getDefaultPlugins();
+
+		imagemin.buffer(file.contents, {use})
+			.then(data =&#x3e; {
+				const originalSize = file.contents.length;
+				const optimizedSize = data.length;
+				const saved = originalSize - optimizedSize;
+				const percent = originalSize &#x3e; 0 ? (saved / originalSize) * 100 : 0;
+				const savedMsg = `saved ${prettyBytes(saved)} - ${percent.toFixed(1).replace(/\.0$/, &#x27;&#x27;)}%`;
+				const msg = saved &#x3e; 0 ? savedMsg : &#x27;already optimized&#x27;;
+
+				totalBytes += originalSize;
+				totalSavedBytes += saved;
+				totalFiles++;
+
+				if (opts.verbose) {
+					gutil.log(&#x27;gulp-imagemin:&#x27;, chalk.green(&#x27;✔ &#x27;) + file.relative + chalk.gray(` (${msg})`));
+				}
+
+				file.contents = data;
+				cb(null, file); // eslint-disable-line promise/no-callback-in-promise
+			})
+			.catch(err =&#x3e; {
+				// TODO: remove this setImmediate when gulp 4 is targeted
+				setImmediate(cb, new gutil.PluginError(&#x27;gulp-imagemin&#x27;, err, {fileName: file.path}));
+			});
+	}, cb =&#x3e; {
+		const percent = totalBytes &#x3e; 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
+		let msg = `Minified ${totalFiles} ${plur(&#x27;image&#x27;, totalFiles)}`;
+
+		if (totalFiles &#x3e; 0) {
+			msg += chalk.gray(` (saved ${prettyBytes(totalSavedBytes)} - ${percent.toFixed(1).replace(/\.0$/, &#x27;&#x27;)}%)`);
+		}
+
+		gutil.log(&#x27;gulp-imagemin:&#x27;, msg);
+		cb();
+	});
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
         <a href="#apidoc.element.gulp-imagemin.jpegtran" id="apidoc.element.gulp-imagemin.jpegtran">
         function <span class="apidocSignatureSpan">gulp-imagemin.</span>jpegtran
         <span class="apidocSignatureSpan">()</span>
@@ -300,6 +447,226 @@ Note that you may come across an older, implicit syntax. In versions &#x3c; 3, t
     <h2>
         <a href="#apidoc.element.gulp-imagemin.svgo" id="apidoc.element.gulp-imagemin.svgo">
         function <span class="apidocSignatureSpan">gulp-imagemin.</span>svgo
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">svgo = function () {
+		const args = [].slice.call(arguments);
+		return loadPlugin(plugin, args);
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+```js
+…
+.pipe(imagemin([
+	imagemin.gifsicle({interlaced: true}),
+	imagemin.jpegtran({progressive: true}),
+	imagemin.optipng({optimizationLevel: 5}),
+	imagemin.<span class="apidocCodeKeywordSpan">svgo</span>({plugins: [{removeViewBox: true}]})
+]))
+…
+```
+
+Note that you may come across an older, implicit syntax. In versions &#x3c; 3, the same was written like this:
+
+```js
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.gulp-imagemin.index" id="apidoc.module.gulp-imagemin.index">module gulp-imagemin.index</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-imagemin.index.index" id="apidoc.element.gulp-imagemin.index.index">
+        function <span class="apidocSignatureSpan">gulp-imagemin.</span>index
+        <span class="apidocSignatureSpan">(plugins, opts)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">(plugins, opts) =&#x3e; {
+	if (typeof plugins === &#x27;object&#x27; &#x26;&#x26; !Array.isArray(plugins)) {
+		opts = plugins;
+		plugins = null;
+	}
+
+	opts = Object.assign({
+		// TODO: remove this when gulp get&#x27;s a real logger with levels
+		verbose: process.argv.indexOf(&#x27;--verbose&#x27;) !== -1
+	}, opts);
+
+	const validExts = [&#x27;.jpg&#x27;, &#x27;.jpeg&#x27;, &#x27;.png&#x27;, &#x27;.gif&#x27;, &#x27;.svg&#x27;];
+
+	let totalBytes = 0;
+	let totalSavedBytes = 0;
+	let totalFiles = 0;
+
+	return through.obj({
+		maxConcurrency: 8
+	}, (file, enc, cb) =&#x3e; {
+		if (file.isNull()) {
+			cb(null, file);
+			return;
+		}
+
+		if (file.isStream()) {
+			cb(new gutil.PluginError(&#x27;gulp-imagemin&#x27;, &#x27;Streaming not supported&#x27;));
+			return;
+		}
+
+		if (validExts.indexOf(path.extname(file.path).toLowerCase()) === -1) {
+			if (opts.verbose) {
+				gutil.log(`gulp-imagemin: Skipping unsupported image ${chalk.blue(file.relative)}`);
+			}
+
+			cb(null, file);
+			return;
+		}
+
+		const use = plugins || getDefaultPlugins();
+
+		imagemin.buffer(file.contents, {use})
+			.then(data =&#x3e; {
+				const originalSize = file.contents.length;
+				const optimizedSize = data.length;
+				const saved = originalSize - optimizedSize;
+				const percent = originalSize &#x3e; 0 ? (saved / originalSize) * 100 : 0;
+				const savedMsg = `saved ${prettyBytes(saved)} - ${percent.toFixed(1).replace(/\.0$/, &#x27;&#x27;)}%`;
+				const msg = saved &#x3e; 0 ? savedMsg : &#x27;already optimized&#x27;;
+
+				totalBytes += originalSize;
+				totalSavedBytes += saved;
+				totalFiles++;
+
+				if (opts.verbose) {
+					gutil.log(&#x27;gulp-imagemin:&#x27;, chalk.green(&#x27;✔ &#x27;) + file.relative + chalk.gray(` (${msg})`));
+				}
+
+				file.contents = data;
+				cb(null, file); // eslint-disable-line promise/no-callback-in-promise
+			})
+			.catch(err =&#x3e; {
+				// TODO: remove this setImmediate when gulp 4 is targeted
+				setImmediate(cb, new gutil.PluginError(&#x27;gulp-imagemin&#x27;, err, {fileName: file.path}));
+			});
+	}, cb =&#x3e; {
+		const percent = totalBytes &#x3e; 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
+		let msg = `Minified ${totalFiles} ${plur(&#x27;image&#x27;, totalFiles)}`;
+
+		if (totalFiles &#x3e; 0) {
+			msg += chalk.gray(` (saved ${prettyBytes(totalSavedBytes)} - ${percent.toFixed(1).replace(/\.0$/, &#x27;&#x27;)}%)`);
+		}
+
+		gutil.log(&#x27;gulp-imagemin:&#x27;, msg);
+		cb();
+	});
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-imagemin.index.gifsicle" id="apidoc.element.gulp-imagemin.index.gifsicle">
+        function <span class="apidocSignatureSpan">gulp-imagemin.index.</span>gifsicle
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">gifsicle = function () {
+		const args = [].slice.call(arguments);
+		return loadPlugin(plugin, args);
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```
+
+### Custom plugin options
+
+```js
+…
+.pipe(imagemin([
+	imagemin.<span class="apidocCodeKeywordSpan">gifsicle</span>({interlaced: true}),
+	imagemin.jpegtran({progressive: true}),
+	imagemin.optipng({optimizationLevel: 5}),
+	imagemin.svgo({plugins: [{removeViewBox: true}]})
+]))
+…
+```
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-imagemin.index.jpegtran" id="apidoc.element.gulp-imagemin.index.jpegtran">
+        function <span class="apidocSignatureSpan">gulp-imagemin.index.</span>jpegtran
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">jpegtran = function () {
+		const args = [].slice.call(arguments);
+		return loadPlugin(plugin, args);
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+### Custom plugin options
+
+```js
+…
+.pipe(imagemin([
+	imagemin.gifsicle({interlaced: true}),
+	imagemin.<span class="apidocCodeKeywordSpan">jpegtran</span>({progressive: true}),
+	imagemin.optipng({optimizationLevel: 5}),
+	imagemin.svgo({plugins: [{removeViewBox: true}]})
+]))
+…
+```
+
+Note that you may come across an older, implicit syntax. In versions &#x3c; 3, the same was written like this:
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-imagemin.index.optipng" id="apidoc.element.gulp-imagemin.index.optipng">
+        function <span class="apidocSignatureSpan">gulp-imagemin.index.</span>optipng
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">optipng = function () {
+		const args = [].slice.call(arguments);
+		return loadPlugin(plugin, args);
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+### Custom plugin options
+
+```js
+…
+.pipe(imagemin([
+	imagemin.gifsicle({interlaced: true}),
+	imagemin.jpegtran({progressive: true}),
+	imagemin.<span class="apidocCodeKeywordSpan">optipng</span>({optimizationLevel: 5}),
+	imagemin.svgo({plugins: [{removeViewBox: true}]})
+]))
+…
+```
+
+Note that you may come across an older, implicit syntax. In versions &#x3c; 3, the same was written like this:
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-imagemin.index.svgo" id="apidoc.element.gulp-imagemin.index.svgo">
+        function <span class="apidocSignatureSpan">gulp-imagemin.index.</span>svgo
         <span class="apidocSignatureSpan">()</span>
         </a>
     </h2>
