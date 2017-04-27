@@ -1,0 +1,240 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/sindresorhus/gulp-imagemin#readme"
+
+    >gulp-imagemin (v3.2.0)</a>
+</h1>
+<h4>Minify PNG, JPEG, GIF and SVG images</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.gulp-imagemin">module gulp-imagemin</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-imagemin.gifsicle">
+            function <span class="apidocSignatureSpan">gulp-imagemin.</span>gifsicle
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-imagemin.jpegtran">
+            function <span class="apidocSignatureSpan">gulp-imagemin.</span>jpegtran
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-imagemin.optipng">
+            function <span class="apidocSignatureSpan">gulp-imagemin.</span>optipng
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-imagemin.svgo">
+            function <span class="apidocSignatureSpan">gulp-imagemin.</span>svgo
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.gulp-imagemin" id="apidoc.module.gulp-imagemin">module gulp-imagemin</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-imagemin.gifsicle" id="apidoc.element.gulp-imagemin.gifsicle">
+        function <span class="apidocSignatureSpan">gulp-imagemin.</span>gifsicle
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">gifsicle = function () {
+		const args = [].slice.call(arguments);
+		return loadPlugin(plugin, args);
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```
+
+### Custom plugin options
+
+```js
+…
+.pipe(imagemin([
+	imagemin.<span class="apidocCodeKeywordSpan">gifsicle</span>({interlaced: true}),
+	imagemin.jpegtran({progressive: true}),
+	imagemin.optipng({optimizationLevel: 5}),
+	imagemin.svgo({plugins: [{removeViewBox: true}]})
+]))
+…
+```
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-imagemin.jpegtran" id="apidoc.element.gulp-imagemin.jpegtran">
+        function <span class="apidocSignatureSpan">gulp-imagemin.</span>jpegtran
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">jpegtran = function () {
+		const args = [].slice.call(arguments);
+		return loadPlugin(plugin, args);
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+### Custom plugin options
+
+```js
+…
+.pipe(imagemin([
+	imagemin.gifsicle({interlaced: true}),
+	imagemin.<span class="apidocCodeKeywordSpan">jpegtran</span>({progressive: true}),
+	imagemin.optipng({optimizationLevel: 5}),
+	imagemin.svgo({plugins: [{removeViewBox: true}]})
+]))
+…
+```
+
+Note that you may come across an older, implicit syntax. In versions &#x3c; 3, the same was written like this:
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-imagemin.optipng" id="apidoc.element.gulp-imagemin.optipng">
+        function <span class="apidocSignatureSpan">gulp-imagemin.</span>optipng
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">optipng = function () {
+		const args = [].slice.call(arguments);
+		return loadPlugin(plugin, args);
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+### Custom plugin options
+
+```js
+…
+.pipe(imagemin([
+	imagemin.gifsicle({interlaced: true}),
+	imagemin.jpegtran({progressive: true}),
+	imagemin.<span class="apidocCodeKeywordSpan">optipng</span>({optimizationLevel: 5}),
+	imagemin.svgo({plugins: [{removeViewBox: true}]})
+]))
+…
+```
+
+Note that you may come across an older, implicit syntax. In versions &#x3c; 3, the same was written like this:
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-imagemin.svgo" id="apidoc.element.gulp-imagemin.svgo">
+        function <span class="apidocSignatureSpan">gulp-imagemin.</span>svgo
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">svgo = function () {
+		const args = [].slice.call(arguments);
+		return loadPlugin(plugin, args);
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+```js
+…
+.pipe(imagemin([
+	imagemin.gifsicle({interlaced: true}),
+	imagemin.jpegtran({progressive: true}),
+	imagemin.optipng({optimizationLevel: 5}),
+	imagemin.<span class="apidocCodeKeywordSpan">svgo</span>({plugins: [{removeViewBox: true}]})
+]))
+…
+```
+
+Note that you may come across an older, implicit syntax. In versions &#x3c; 3, the same was written like this:
+
+```js
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
